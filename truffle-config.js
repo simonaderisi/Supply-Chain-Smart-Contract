@@ -7,8 +7,11 @@ module.exports = {
   networks: {
     development: {
       host: "127.0.0.1",
-      port: 8545,
-      network_id: "*", // Match any network id
+      port: 7545,
+      network_id: "*" // Match any network id
+    },
+    develop:{
+      port: 8545
     },
     mumbai: {
       provider: () => new HDWalletProvider(MNEMONIC_KEY, RPC_URL),
@@ -22,7 +25,7 @@ module.exports = {
   },
   compilers: {
     solc: {
-      version: "^0.8.0",
+      version: "0.8.13",
     },
   },
 };
