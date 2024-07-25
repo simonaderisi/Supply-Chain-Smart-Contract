@@ -1,37 +1,16 @@
-import { task } from "hardhat/config"
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers"
-import { BigNumber } from "ethers"
-import "@nomicfoundation/hardhat-toolbox";
-import "@nomicfoundation/hardhat-chai-matchers";
-
-task("accounts", "Prints the list of accounts", async (args, hre): Promise<void> => {
-  const accounts: SignerWithAddress[] = await hre.ethers.getSigners()
-  accounts.forEach((account: SignerWithAddress): void => {
-    console.log(account.address)
-  })
-})
-
-task("balances", "Prints the list of ETH account balances", async (args, hre): Promise<void> => {
-  const accounts: SignerWithAddress[] = await hre.ethers.getSigners()
-  for(const account of accounts){
-    const balance: BigNumber = await hre.ethers.provider.getBalance(
-        account.address
-    );
-    console.log(`${account.address} has balance ${balance.toString()}`);
-  }
-})
+import "@nomiclabs/hardhat-truffle5";
 
 export default {
   solidity: {
     compilers: [
       {
-        version: "0.8.6"
+        version: "0.8.13"
       }
     ]
   },
   networks: {
     localnet: {
-      url: 'http://127.0.0.1:52947',//TODO: REPLACE <PORT> WITH THE PORT OF A NODE URI PRODUCED BY THE ETH NETWORK KURTOSIS PACKAGE
+      url: 'http://127.0.0.1:59226',//TODO: REPLACE <PORT> WITH THE PORT OF A NODE URI PRODUCED BY THE ETH NETWORK KURTOSIS PACKAGE
       // These are private keys associated with prefunded test accounts created by the eth-network-package
       //https://github.com/ethpandaops/ethereum-package/blob/main/src/prelaunch_data_generator/genesis_constants/genesis_constants.star
       accounts: [
