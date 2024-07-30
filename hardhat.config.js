@@ -1,12 +1,8 @@
-import "@nomiclabs/hardhat-truffle5";
+require("@nomiclabs/hardhat-truffle5");
 
-export default {
+module.exports = {
   solidity: {
-    compilers: [
-      {
-        version: "0.8.13"
-      }
-    ]
+      version: "0.8.13",
   },
   networks: {
     localnet: {
@@ -22,5 +18,5 @@ export default {
         "7ff1a4c1d57e5e784d327c4c7651e952350bc271f156afb3d00d20f5ef924856",
       ],
     },
-  }
+  },
 };
