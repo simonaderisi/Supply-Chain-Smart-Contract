@@ -1,23 +1,34 @@
 require("@nomiclabs/hardhat-truffle5");
 require("@nomicfoundation/hardhat-chai-matchers");
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const config_1 = require("hardhat/config");
+require("hardhat/config");
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-chai-matchers");
-(0, config_1.task)("accounts", "Prints the list of accounts", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
+
+task("accounts", "Prints the list of accounts", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
     const accounts = yield hre.ethers.getSigners();
     accounts.forEach((account) => {
         console.log(account.address);
     });
 }));
-(0, config_1.task)("balances", "Prints the list of ETH account balances", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
+task("balances", "Prints the list of ETH account balances", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
     const accounts = yield hre.ethers.getSigners();
     for (const account of accounts) {
         const balance = yield hre.ethers.provider.getBalance(account.address);
         console.log(`${account.address} has balance ${balance.toString()}`);
     }
 }));
+
+task("ciuccia", "Send requests to a deployed SupplyChain")
+  .addParam("address", "The SupplyCahin's address")
+  .setAction(async (taskArgs, hre) => {
+    const Token = await ethers.getContractFactory("SupplyChain");
+    const supplyChain = await Token.attach(taskArgs.address);
+   //const accounts = yield hre.ethers.getSigners();
+    
+    //await supplyChain.addFarmer(accounts[0]);
+
+    console.log("Hello, World!");
+  });
 
 module.exports = {
   solidity: {
