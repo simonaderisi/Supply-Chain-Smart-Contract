@@ -1,0 +1,24 @@
+# Execute local ethereum network.
+kurtosis --enclave local-eth-testnet run github.com/ethpandaops/ethereum-package
+
+# Execute local ethereum network with multiple nodes.
+kurtosis run --enclave local-eth-testnet github.com/ethpandaops/ethereum-package --args-file eth-network-params.yaml
+
+# Set up connection software-hardware by specifying network address of an el node in hardhat.config.js
+
+# Compile and test app.
+npx hardhat compile
+npx hardhat test --network localnet
+
+# Manage kurtosis.
+kurtosis enclave ls
+kurtosis enclave stop *
+kurtosis clean -a
+kurtosis engine stop
+kurtosis engine start
+
+# Interact with blockchain.
+npx hardhat ignition deploy ./ignition/modules/SupplyChain.js --network localnet
+# Take deployed contract address.
+npx hardhat --network localnet --verbose ciuccio --address 0xb4B46bdAA835F8E4b4d8e208B6559cD267851051
+
