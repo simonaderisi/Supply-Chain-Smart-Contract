@@ -4,6 +4,8 @@ require("hardhat/config");
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-chai-matchers");
 
+const PRODUCTIONS = 10;
+
 task("accounts", "Prints the list of accounts", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
     const accounts = yield hre.ethers.getSigners();
     accounts.forEach((account) => {
@@ -18,17 +20,55 @@ task("balances", "Prints the list of ETH account balances", (args, hre) => __awa
     }
 }));
 
-task("ciuccia", "Send requests to a deployed SupplyChain")
-  .addParam("address", "The SupplyCahin's address")
-  .setAction(async (taskArgs, hre) => {
-    const Token = await ethers.getContractFactory("SupplyChain");
-    const supplyChain = await Token.attach(taskArgs.address);
+task("ciuccio", "Execute operations on deployed SupplyChain.", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
+    // Get contract from deployed address.
+    const Token = yield hre.ethers.getContractFactory("SupplyChain");
+    const supplyChain = yield Token.attach(args.address);
+    // Get accounts.
+    const accounts = yield hre.ethers.getSigners();
+    // Set item values.
+    const productCode = 1;
+    const originFarmName = "Josef Emanuele Zerpa Ruiz";
+    const originFarmInformation = "Supa Farm";
+    const originFarmLatitude = "-31.3373";
+    const originFarmLongitude = "03.022000";
+    const productNotes = "Dough for export";
+    const productPrice = web3.utils.toWei("50.05", "ether");
+    const farmer = accounts[0];
+    
+    // Add farmer role.
+    if (!(yield supplyChain.isFarmer(farmer)))
+    {
+      yield supplyChain.addFarmer(farmer);
+    }
+    // Execute item production.
+    for (let step = 0; step < PRODUCTIONS; step++) {
+      const tx = yield supplyChain.produceItemByFarmer(
+        productCode,
+        originFarmName,
+        originFarmInformation,
+        originFarmLatitude,
+        originFarmLongitude,
+        productNotes,
+        productPrice,
+        { from: farmer }
+      );
+      //console.log(tx);
+      console.log("Produced " + step + " item.");
+    }
+}))
+.addParam("address", "Address of the deployed SupplyChain.");
+
+task("ciuccia", "Send requests to a deployed SupplyChain", (taskArgs, hre) => {
+    //const Token = yield hre.ethers.getContractFactory("SupplyChain");
+    //const supplyChain = yield Token.attach(taskArgs.address);
    //const accounts = yield hre.ethers.getSigners();
     
     //await supplyChain.addFarmer(accounts[0]);
 
     console.log("Hello, World!");
-  });
+  })
+  .addParam("address", "The message to print");
 
 module.exports = {
   solidity: {
