@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Stop all enclaves
-kurtosis enclave stop *
 kurtosis clean -a
-kurtosis run github.com/ethpandaops/ethereum-package --args-file eth-network-params.yaml --image-download always
+kurtosis --enclave eth-net run github.com/ethpandaops/ethereum-package --args-file $1 --image-download always
+
+echo "Waiting 1 min for the net to be ready"
+sleep 60

@@ -1,0 +1,24 @@
+NET PARAMS: eth-network-params_1-nodes.yaml
+real: 7:33.57
+user: 32.72
+system: 3.26
+
+NET PARAMS: eth-network-params_3-nodes.yaml
+real: 7:37.30
+user: 30.35
+system: 2.75
+
+NET PARAMS: eth-network-params_6-nodes.yaml
+real: 7:39.52
+user: 22.23
+system: 2.05
+
+NET PARAMS: eth-network-params_9-nodes.yaml
+real: 7:26.92
+user: 19.42
+system: 2.00
+
+NET PARAMS: eth-network-params_9-nodes.yaml
+real: 7:35.61
+user: 20.36
+system: 1.67
