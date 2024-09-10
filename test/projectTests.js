@@ -1,6 +1,6 @@
 var SupplyChain = artifacts.require("SupplyChain");
 
-
+//Returns a number between 1 and max
 function getRandomInt(max){
   return Math.floor(Math.random() * max) + 1;
 }
@@ -21,18 +21,17 @@ contract("SupplyChain", function (accounts) {
   const farmer_1 = accounts[1];
 
   console.log("<----------------ACCOUNTS----------------> ");
-  console.log("Farmer 1: accounts[0] ", accounts[0]);
-  console.log("Farmer 2: accounts[1] ", accounts[1]);
-  console.log("Farmer 3: accounts[2] ", accounts[2]);
-  console.log("Farmer 10: accounts[11] ", accounts[11]);
+  console.log("Farmer 1: accounts[1] ", accounts[1]);
+  console.log("Farmer 2: accounts[2] ", accounts[2]);
+  console.log("Farmer 10: accounts[10] ", accounts[10]);
 
   console.log("<-------TESTING CONTRACT FUNCTIONS------->");
 
-  // Test con più richieste simultanee e misurazione del tempo
+  // Test with multiple requests
   it("Testing smart contract function produceItem() with multiple concurrent requests", async () => {
     const supplyChain = await SupplyChain.deployed();
 
-    // Aggiungi l'indirizzo del farmer al farmerRole
+    // Add farmer addresses
     await supplyChain.addFarmer(farmer_1);
     await supplyChain.addFarmer(accounts[2]);
     await supplyChain.addFarmer(accounts[3]);
@@ -43,22 +42,18 @@ contract("SupplyChain", function (accounts) {
     await supplyChain.addFarmer(accounts[8]);
     await supplyChain.addFarmer(accounts[9]);
     await supplyChain.addFarmer(accounts[10]);
-    await supplyChain.addFarmer(accounts[11]);
 
-    // Numero di richieste simultanee
-    const numRequests = 10;
-    let promises = [];
+    // Number of cuncurrent requests
+    const numRequests = 20;
 
-    // Inizia la misurazione del tempo
-    console.time("Time for producing items");
-
+    //push all the requests (each one from a random farmer)
     for (let i = 0; i < numRequests; i++) {
       const currentProductCode = productCode + i;
 
-      var random_farmer = getRandomInt(11);
-
-      // Crea una promessa per ogni transazione
-      const promise = supplyChain.produceItemByFarmer(
+      var random_farmer = getRandomInt(10);
+      console.log(random_farmer);
+      //create the request from the random farmer
+      supplyChain.produceItemByFarmer(
         currentProductCode,
         originFarmName,
         originFarmInformation,
@@ -68,13 +63,21 @@ contract("SupplyChain", function (accounts) {
         productPrice,
         { from: accounts[random_farmer] }
       );
-      promises.push(promise);
     }
-
-    // Esegui tutte le promesse in parallelo
-    await Promise.all(promises);
-
-    // Termina la misurazione del tempo
-    console.timeEnd("Time for producing items");
-  });
+    //check if the requests are present in the blocks
+    for (let i = 0; i < numRequests; i++) {
+      const currentProductCode = productCode + i;
+      var eventEmitted = false;
+      while(eventEmitted == false){
+        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(
+        currentProductCode
+      );
+        if (resultBufferOne[1] == currentProductCode){
+          eventEmitted = true;
+          console.log("trovato " + i);
+        }
+      }
+    }
+  }
+).timeout(1000000);
 });

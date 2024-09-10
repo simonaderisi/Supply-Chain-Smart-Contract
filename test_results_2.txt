@@ -1,0 +1,19 @@
+NET PARAMS: 
+real: 0:28.72
+user: 8.02
+system: 2.22
+NET PARAMS: 
+real: 0:55.39
+user: 32.85
+system: 9.16
+
+NET PARAMS: 
+real: 4:35.66
+user: 12.31
+system: 2.15
+NET PARAMS: 
+Command terminated by signal 2
+real: 8:50.29
+user: 136.29
+system: 12.58
+
