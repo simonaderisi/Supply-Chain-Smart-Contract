@@ -4,7 +4,7 @@ require("hardhat/config");
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-chai-matchers");
 
-const PRODUCTIONS = 10;
+const PRODUCTIONS = 1000;
 
 task("accounts", "Prints the list of accounts", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
     const accounts = yield hre.ethers.getSigners();
@@ -36,13 +36,15 @@ task("ciuccio", "Execute operations on deployed SupplyChain.", (args, hre) => __
     const productPrice = web3.utils.toWei("50.05", "ether");
     const farmer = accounts[0];
     
+    /*
     // Add farmer role.
     if (!(yield supplyChain.isFarmer(farmer)))
     {
       yield supplyChain.addFarmer(farmer);
-    }
+    }*/
     // Execute item production.
     for (let step = 0; step < PRODUCTIONS; step++) {
+      let time = new Date().getTime();
       const tx = yield supplyChain.produceItemByFarmer(
         productCode,
         originFarmName,
@@ -53,22 +55,12 @@ task("ciuccio", "Execute operations on deployed SupplyChain.", (args, hre) => __
         productPrice,
         { from: farmer }
       );
+      let received = new Date().getTime();
       //console.log(tx);
-      console.log("Produced " + step + " item.");
+      console.log("Produced item in " + (received - time).toString() + " milliseconds.");
     }
 }))
 .addParam("address", "Address of the deployed SupplyChain.");
-
-task("ciuccia", "Send requests to a deployed SupplyChain", (taskArgs, hre) => {
-    //const Token = yield hre.ethers.getContractFactory("SupplyChain");
-    //const supplyChain = yield Token.attach(taskArgs.address);
-   //const accounts = yield hre.ethers.getSigners();
-    
-    //await supplyChain.addFarmer(accounts[0]);
-
-    console.log("Hello, World!");
-  })
-  .addParam("address", "The message to print");
 
 module.exports = {
   solidity: {
@@ -76,7 +68,7 @@ module.exports = {
   },
   networks: {
     localnet: {
-      url: 'http://127.0.0.1:51343',//TODO: REPLACE <PORT> WITH THE PORT OF A NODE URI PRODUCED BY THE ETH NETWORK KURTOSIS PACKAGE
+      url: 'http://127.0.0.1:59789',//TODO: REPLACE <PORT> WITH THE PORT OF A NODE URI PRODUCED BY THE ETH NETWORK KURTOSIS PACKAGE
       // These are private keys associated with prefunded test accounts created by the eth-network-package
       //https://github.com/ethpandaops/ethereum-package/blob/main/src/prelaunch_data_generator/genesis_constants/genesis_constants.star
       accounts: [

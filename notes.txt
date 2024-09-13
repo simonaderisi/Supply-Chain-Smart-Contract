@@ -10,6 +10,9 @@ kurtosis run --enclave local-eth-testnet github.com/ethpandaops/ethereum-package
 npx hardhat compile
 npx hardhat test --network localnet
 
+# Install hardhat.
+npm install --save-dev hardhat
+
 # Manage kurtosis.
 kurtosis enclave ls
 kurtosis enclave stop *

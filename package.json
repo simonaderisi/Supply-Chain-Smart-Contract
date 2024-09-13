@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.0.16",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "ethers": "^6.13.2"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.7",

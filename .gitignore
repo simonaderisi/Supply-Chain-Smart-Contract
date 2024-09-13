@@ -1,5 +1,7 @@
-hardhat.config.js
-yarn.lock
+**hardhat.config.js
+**yarn.lock
+**package.json
+**package-lock.json
 
 # Logs
 logs
