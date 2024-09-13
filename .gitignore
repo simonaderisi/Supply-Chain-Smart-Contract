@@ -1,3 +1,8 @@
+**hardhat.config.js
+**yarn.lock
+**package.json
+**package-lock.json
+
 # Logs
 logs
 *.log
@@ -109,7 +114,9 @@ dist
 .tern-port
 
 #Hardhat files
-cache
+cache/
+artifacts/
+build/contracts/
 
 #Hardhat build
 build/contracts
@@ -117,3 +124,6 @@ build/contracts
 # System files
 .DS_Store
 Thumbs.db
+=======
+# Node-js stuff
+node_modules
