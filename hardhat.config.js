@@ -20,7 +20,7 @@ task("balances", "Prints the list of ETH account balances", (args, hre) => __awa
     }
 }));
 
-task("ciuccio", "Execute operations on deployed SupplyChain.", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
+task("fire", "Execute operations on deployed SupplyChain.", (args, hre) => __awaiter(void 0, void 0, void 0, function* () {
     // Get contract from deployed address.
     const Token = yield hre.ethers.getContractFactory("SupplyChain");
     const supplyChain = yield Token.attach(args.address);
